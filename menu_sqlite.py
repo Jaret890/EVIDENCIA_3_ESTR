@@ -39,7 +39,7 @@ def turnos(turno):
 def registrar_cliente():
     nombre = input("Nombre del cliente: ")
     apellidos = input("Apellidos: ")
-    if not nombre or apellidos:
+    if not nombre or not apellidos:
         print("--Nombre y apellidos son obligatorios--")
         return
     conn = conectar()
@@ -130,7 +130,7 @@ def registrar_reservacion():
         print("--Turno no valido--")
         return
     
-    evento = input("--NOmbre del evento: ")
+    evento = input("--Nombre del evento: ")
     if not evento or evento.isspace():
         print("--Nombre del evento no valido--")
         return
@@ -172,7 +172,7 @@ def consultar_por_fecha():
     conn.close()
 
     if not reservas:
-        print("No hay reservaciones para esa fecha.")
+        print("--No hay reservaciones para esa fecha--")
         return
 
     print(f"--Reservaciones del {fecha}:")
@@ -279,7 +279,7 @@ def editar_evento():
     print(f"Evento actual: {data[0]}")
     nuevo = input("Nuevo nombre del evento: ").strip()
     if not nuevo:
-        print("El nombre no puede estar vacío.")
+        print("--El nombre no puede estar vacío--")
         conn.close()
         return
     cursor.execute("UPDATE reservaciones SET evento=? WHERE id_reservacion=?", (nuevo, folio))
