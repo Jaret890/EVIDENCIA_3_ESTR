@@ -245,30 +245,47 @@ def exportar_excel(reservas, nombre_archivo):
     wb.save(nombre_archivo)
     print(f"--Reporte exportado a {nombre_archivo}--")
 
-def editar_evento():
-    try:
-        folio = int(input("--Folio del evento a editar: "))
-    except:
-        print("--Folio invalido--")
-        return
+def listar_reservaciones():
     conn = conectar()
     cursor = conn.cursor()
-    cursor.execute("SELECT id_reservacion, evento FROM reservaciones WHERE id_reservaciones=?",(folio))
+    cursor.execute("SELECT id_reservacion, evento FROM reservaciones ORDER BY id_reservacion")
+    datos = cursor.fetchall()
+    conn.close()
+    if not datos:
+        print("--No hay reservaciones registradas--")
+        return []
+    print("--Reservaciones disponibles:")
+    for r in datos:
+        print(f"Folio: {r[0]} - Evento: {r[1]}")
+    return [r[0] for r in datos]
+
+def editar_evento():
+    folios = listar_reservaciones()
+    if not folios:
+        return
+    try:
+        folio = int(input("Folio del evento a editar: ").strip())
+    except:
+        print("Folio inválido.")
+        return
+    if folio not in folios:
+        print("Folio no existe.")
+        return
+
+    conn = conectar()
+    cursor = conn.cursor()
+    cursor.execute("SELECT evento FROM reservaciones WHERE id_reservacion=?", (folio,))
     data = cursor.fetchone()
-    if not data:
-        print("--Folio no encointrado--")
-        conn.close()
-        return
-    print(f"--Evento actual: {data[1]}--")
-    nuevo = input("--Nuevo nombre del evento: ")
+    print(f"Evento actual: {data[0]}")
+    nuevo = input("Nuevo nombre del evento: ").strip()
     if not nuevo:
-        print("--El nombre no puede estar vacio--")
+        print("El nombre no puede estar vacío.")
         conn.close()
         return
-    cursor.execute("UPDATE reservaciones SET evento=? WHERE id_reservaciones=?", (nuevo, folio))
+    cursor.execute("UPDATE reservaciones SET evento=? WHERE id_reservacion=?", (nuevo, folio))
     conn.commit()
     conn.close()
-    print("--Evento actualizado--")
+    print("--Evento actualizado correctamente--")
 
 def conectar():
     return sqlite3.connect(BD_NOMBRE)
