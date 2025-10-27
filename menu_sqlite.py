@@ -330,15 +330,15 @@ def menu():
 
         opcion = input("--Movimiento a realizar: ")
         if opcion == "1":
-            registrar_cliente()
-        elif opcion == "2":
-            registrar_sala()
-        elif opcion == "3":
             registrar_reservacion()
+        elif opcion == "2":
+            editar_evento()    
+        elif opcion == "3":
+            consultar_por_fecha()   
         elif opcion == "4":
-            consultar_por_fecha()
+            registrar_cliente()
         elif opcion == "5":
-            editar_evento()
+            registrar_sala()
         elif opcion == "6":
             confirmar = input("--¿Seguro que desea salir? (s/n): ").upper()
             if confirmar == "S":
