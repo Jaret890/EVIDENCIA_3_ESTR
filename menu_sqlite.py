@@ -321,11 +321,11 @@ def menu():
     print("--Sistema de Reservas de Coworking--")
     while True:
         print("--Menu--")
-        print("1.-Registrar cliente")
-        print("2.- Registrar sala")
-        print("3.- Registrar reservacion")
-        print("4.- Consultar reservaciones por fecha")
-        print("5.- Edsitar nombre del evento")
+        print("1.- Registrar reservacion")
+        print("2.- Editar nombre del evento")
+        print("3.- Consultar reservaciones por fecha")
+        print("4.- Registrar cliente")
+        print("5.- Registrar sala")  
         print("6.- Salir")
 
         opcion = input("--Movimiento a realizar: ")
